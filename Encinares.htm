@@ -1,0 +1,409 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leshann's Portoflio</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* INTRO SCREEN */
+    #intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      transition: opacity 2s ease;
+    }
+
+    #intro h1, #intro h2 {
+      font-size: 100px;
+      font-weight: bold;
+      animation: glitch 0.2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { color: red; }
+      25% { color: yellow; }
+      50% { color: lime; }
+      75% { color: cyan; }
+      100% { color: magenta; }
+    }
+
+    /* Hide main content until intro is gone */
+    #main-content {
+      display: none;
+    }
+
+    body.loaded #main-content {
+      display: block;
+    }
+
+    /* --- your original styles --- */
+    .rainbow-animated {                                                                     
+      font-size: 36px;
+      font-weight: bold;
+      animation: rainbow 0.2s infinite linear;
+    }
+    @keyframes rainbow {
+      0% { color: red; }
+      16% { color: orange; }
+      33% { color: yellow; }
+      50% { color: green; }
+      66% { color: blue; }
+      83% { color: indigo; }
+      100% { color: violet; }
+    }
+    .spin-text {
+      display: inline-block;
+      font-size: 50px;
+      font-weight: bold;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .slide-text {
+      position: relative;
+      animation: slide-in 5s forwards;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    @keyframes slide-in {
+      from { left: -100%; opacity: 0; }
+      to { left: 0; opacity: 1; }
+    }
+    .rainbow-text {
+      font-size: 100px;
+      font-weight: bold;
+      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO SCREEN -->
+  <div id="intro">
+ <h3>[[ Now Entering ]]</h1>
+    <h1>[[ Hello Everyone!! ]]</h1>
+    <h2>[[ WELCOME ONE AND ALL ]]</h2>
+  </div>
+
+  <!-- MAIN CONTENT -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Bar</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    nav {
+      background: #333;
+      padding: 10px 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li {
+      margin: 0 15px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav ul li a:hover {
+      color: #f0c040;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="main-content">
+
+    <h1 style="color:blue;"> HEY EVERYONE </h1>
+
+    <h1>My name's Leshann Jarred N. Encinares</h1>
+    <p>[[And Welcome to my PAGE!!!]].</p>                 
+   
+
+    <img src="https://i.ytimg.com/vi/VdoM3T3-xBw/maxresdefault.jpg" alt="Centered Image" style="display: block; margin: 0 auto;" width="1000">
+
+    <h1 class="rainbow-animated">MEET THE MAN HIMSELF</h1>
+
+    <p>Hey Everyone My name's Leshann Jarred N. Encinares or in some cases "Lesh" as others call me, and welcome all to my page!!
+its pretty standard and normal balls haha!! yeesh, i'd like to call it my personal portfolio for upcoming future works in this very page of mine, and rest assured will someday add alotta stuff to it</p>
+
+    <hr>I LOVE DRAWING STUFF.<br>I ALSO ENJOY MY SUNNY DAZE AT THE BEACH!!!!.<hr>
+
+    <p> AND I ALSO LOVE EVERYTHING IN THE FOLLOWING BELOW!!!!</p>
+
+    <ol>
+<li>CLAMS</li>
+<li>Sushi</li>
+<li>GOOD OL AMERICAN CANNED SPAM!!!</li>
+<li>cooking</li
+<li>DRAWING</li
+<li>AND MANY MORE!!!</li
+    </ol>
+
+
+
+    <h1 style="color:blue;"> DON'T FORGET MY NAME IS <br> L E S H (for short :D) </h1>
+
+    <h1 class="spin-text">this text is spinning weeee!!</h1>
+
+    <p class="slide-text">this text slides for some reason</p>
+
+    <p class="slide-text" style="font-size:50px;"> this is my stuff</p>
+
+    <h1>Tap to Play MY [[[[SPAM T O O N S]]]</h1>
+
+    <button onclick="document.getElementById('bg-music').play()"> PLAY ME!!!! </button>
+
+    <audio id="bg-music" loop>
+      <source src="spamton.mp3" type="audio/mpeg">
+    </audio>
+
+    <img src="https://i.pinimg.com/736x/ee/20/b9/ee20b9d8f0d6df1ac2cc8ee8db0ceaf5.jpg" width="400">
+
+    <h1 class="rainbow-animated">first time making rainbow text!!</h1>           
+
+    <h1 class="rainbow-animated">i like coding such as this colorful text i made</h1>
+
+    <img src="https://warndu.com/cdn/shop/articles/Pipis_20111218_img_001_1024x.jpg
+?v=1619132394" width="600">
+
+    <h2 class="rainbow-animated" style="font-size:100px;">this is an image of a bunch of clams lol</h2>
+
+    <address>
+      this is a test portfolio by:<br>
+     albay, Tuburan Ligao city<br>
+      Manila, Philippines
+    </address>
+
+    <p>portfolio and experimental site by me: <br> Leshann Jarred N. Encinares <br> </p>
+
+    <a href="mailto:eleshann13@gmail.com">eleshann13@gmail.com</a>
+  </div>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+    footer {
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin-top: auto;
+    }
+    footer a {
+      color: #f0c040;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <footer>
+    <p>© 2025 SPAMTON G SPAMTON. All rights reserved.</p>
+    <p>
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a>
+    </p>
+  </footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    // Wait 6 seconds, then fade intro and show main content
+    setTimeout(() => {
+      document.getElementById("intro").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("intro").style.display = "none";
+        document.body.classList.add('loaded');
+      }, 2000); // wait for fade transition
+    }, 4000); // keep intro for 4s before fading
+  </script>
+</body>
+</html>
+
+
+
+
+
