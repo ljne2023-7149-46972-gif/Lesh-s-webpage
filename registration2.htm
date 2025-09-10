@@ -1,0 +1,190 @@
+<form>
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username"  placeholder="Enter your username" required>
+  <br><br>
+
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" placeholder="Enter your password" required>
+<button type="button" onclick="togglePwd()">Show/Hide</button>
+
+<script>
+  function togglePwd() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  }
+</script>
+
+
+  <br><br>
+
+  <form>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  </form>
+
+
+
+<label>Gender:</label><br>
+
+  <input type="radio" id="male" name="gender" value="male" required>
+  <label for="male">Male</label><br>
+  
+  <input type="radio" id="female" name="gender" value="female">
+  <label for="female">Female</label><br>
+  
+  <input type="radio" id="other" name="gender" value="other">
+  <label for="other">Other</label>
+  <br><br>
+
+  <!-- Interests (Checkboxes) -->
+
+  <label>Interests:</label><br>
+  <input type="checkbox" id="sports" name="interests" value="sports">
+  <label for="sports">Sports</label><br>
+
+  <input type="checkbox" id="music" name="interests" value="music">
+  <label for="music">Music</label><br>
+
+  <input type="checkbox" id="reading" name="interests" value="reading">
+  <label for="reading">Reading</label><br>
+
+<input type="checkbox" id="drawing" name="interests" value="drawing">
+  <label for="drawing">drawing</label><br>
+
+<input type="checkbox" id="coding" name="interests" value="coding">
+  <label for="coding">coding</label><br>
+
+
+  <input type="checkbox" id="travel" name="interests" value="travel">
+  <label for="travel">Travel</label>
+  <br><br>
+
+
+
+
+
+<label for="comments">Comments:</label><br>
+
+
+<textarea id="comments" name="comments" rows="4" cols="40" 
+          placeholder="Write your comments here..." minlength="10" maxlength="200"></textarea>
+
+
+<p id="count">0 / 200</p>
+
+<script>
+  const comments = document.getElementById("comments");
+  const count = document.getElementById("count");
+  const maxLength = comments.getAttribute("maxlength");
+
+  comments.addEventListener("input", function() {
+    count.textContent = comments.value.length + " / " + maxLength;
+  });
+</script>
+
+
+
+<label for="country">Country:</label>
+  <select id="country" name="country" required>
+    <option value="">--Select your country--</option>
+    <option value="ph">Philippines</option>
+    <option value="us">United States</option>
+    <option value="uk">United Kingdom</option>
+    <option value="jp">Japan</option>
+    <option value="au">Australia</option>
+<option value="au">WONDERFUL LAND OF FURLANDIA :D</option>
+  </select>
+  <br><br>
+
+
+
+
+
+<button type="submit">Login</button>
+</form>
+
+<script>
+  document.getElementById("myForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevents actual form submission
+    alert("Form submitted successfully!");
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<style>
+  .error { border: 2px solid red; }
+</style>
+
+<form id="formCheck">
+  <input type="text" id="name" placeholder="Name">
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  $("#formCheck").submit(function(e) {
+    e.preventDefault();
+
+    if ($("#name").val() === "") {
+      $("#name").addClass("error");
+    } else {
+      $("#name").removeClass("error");
+      alert("Form submitted!");
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
