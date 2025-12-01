@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Dashboard - Mini Treasures</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <script src="cdn/tailwind.js"></script>
+  <script src="cdn/feather-unpkg.js"></script>
+  <link rel="stylesheet" href="cdn/admin.css">
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <img src="pictures/mtlogo.png" style="height:44px" alt="logo">
+        <div class="text-lg font-bold text-pink-500">Mini Treasures — Admin</div>
+      </div>
+      <div class="controls">
+        <a href="index.html" class="btn-ghost">View Site</a>
+        <button id="admin-logout" class="btn-ghost">Logout Admin</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="admin-wrap">
+    <div id="admin-content">
+      <div class="admin-grid">
+        <div>
+          <div class="card">
+            <div class="section-title">Overview</div>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap">
+              <div class="kpi"><div class="value" id="kpi-users">0</div><div class="small">Users</div></div>
+              <div class="kpi"><div class="value" id="kpi-orders">0</div><div class="small">Orders</div></div>
+              <div class="kpi"><div class="value" id="kpi-cart-items">0</div><div class="small">Cart items (active)</div></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <div class="section-title">Users</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+              <input id="user-search" placeholder="Search users..." class="search-input">
+              <div class="controls"><button id="export-users" class="btn-ghost">Export CSV</button></div>
+            </div>
+            <div style="max-height:300px;overflow:auto">
+              <table class="table" id="users-table">
+                <thead><tr><th>Email</th><th>Name</th><th>Actions</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <div class="section-title">Orders</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+              <input id="order-search" placeholder="Search orders..." class="search-input">
+              <div class="controls"><button id="export-orders" class="btn-ghost">Export CSV</button></div>
+            </div>
+            <div style="max-height:300px;overflow:auto">
+              <table class="table" id="orders-table">
+                <thead><tr><th>Order ID</th><th>Email</th><th>Items</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" id="reports-card" style="margin-top:1rem;display:none">
+            <div class="section-title">Sales & Inventory Report</div>
+            <div id="report-summary" style="margin-bottom:.6rem">
+              <div class="small">Summary metrics will appear here.</div>
+            </div>
+            <div style="margin-bottom:.6rem">
+              <h4 class="small">Top Products</h4>
+              <div id="top-products" style="max-height:160px;overflow:auto"></div>
+            </div>
+            <div style="margin-bottom:.6rem">
+              <h4 class="small">Recent Orders</h4>
+              <div id="recent-orders" style="max-height:160px;overflow:auto"></div>
+            </div>
+            <div>
+              <h4 class="small">Inventory</h4>
+              <div id="inventory-area" style="max-height:180px;overflow:auto"></div>
+              <div style="margin-top:.5rem"><button id="init-inventory" class="btn-ghost">Initialize Inventory From Products</button> <button id="export-inventory" class="btn-ghost">Export Inventory CSV</button></div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <div class="section-title">Admin Controls</div>
+            <div class="small">Default admin password: <strong>admin123</strong></div>
+            <div style="margin-top:.6rem">
+              <label class="small">Change admin password</label>
+              <input id="admin-pass" placeholder="new password" class="search-input" style="width:100%;margin-top:.4rem">
+              <div style="margin-top:.6rem"><button id="save-admin-pass" class="btn">Save</button></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <div class="section-title">Quick Actions</div>
+            <div style="display:flex;flex-direction:column;gap:.5rem">
+              <button id="clear-orders" class="btn-ghost">Clear All Orders</button>
+              <button id="clear-users" class="btn-ghost">Clear All Users</button>
+              <button id="reindex-stats" class="btn">Recalculate</button>
+               <button id="open-reports" class="btn-ghost">Open Reports</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Admin auth modal shown if not authenticated -->
+  <div id="adminModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:60">
+    <div style="background:#fff;padding:1.5rem;border-radius:8px;max-width:420px;width:100%">
+      <h3 style="margin:0 0 .5rem 0">Admin Login</h3>
+      <p class="small">Enter the admin password to continue.</p>
+      <input id="adminModalPass" type="password" placeholder="admin password" style="width:100%;padding:.6rem;margin-top:.6rem;border:1px solid #e6e8eb;border-radius:6px">
+      <div style="margin-top:.8rem;display:flex;gap:.5rem;justify-content:flex-end">
+        <button id="adminModalCancel" class="btn-ghost">Cancel</button>
+        <button id="adminModalSubmit" class="btn">Sign In</button>
+      </div>
+      <p class="small" style="margin-top:.6rem">(For demo: default password is <strong>admin123</strong>, you can change it in Admin Controls.)</p>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+
+    (function(){
+      function isAuthenticated(){
+        return localStorage.getItem('mt_admin_auth') === '1';
+      }
+      function setAuthenticated(v){
+        if(v) localStorage.setItem('mt_admin_auth','1'); else localStorage.removeItem('mt_admin_auth');
+      }
+
+      function defaultAdminPass(){
+        return localStorage.getItem('mt_admin_pass') || 'admin123';
+      }
+
+      // UI elements
+      const modal = document.getElementById('adminModal');
+      const modalPass = document.getElementById('adminModalPass');
+      const modalSubmit = document.getElementById('adminModalSubmit');
+      const modalCancel = document.getElementById('adminModalCancel');
+
+      function showModal(){ modal.style.display='flex'; modalPass.value=''; modalPass.focus(); }
+      function hideModal(){ modal.style.display='none'; }
+
+      modalSubmit.addEventListener('click', ()=>{
+        const val = modalPass.value || '';
+        if(val === defaultAdminPass()){
+          setAuthenticated(true); hideModal(); initDashboard();
+        } else {
+          alert('Incorrect admin password');
+        }
+      });
+      modalCancel.addEventListener('click', ()=>{ window.location.href='index.html'; });
+
+      document.getElementById('admin-logout').addEventListener('click', ()=>{ setAuthenticated(false); showModal(); });
+
+      // save admin password control
+      document.getElementById('save-admin-pass').addEventListener('click', ()=>{
+        const v = document.getElementById('admin-pass').value.trim();
+        if(!v){ alert('Enter a password'); return; }
+        localStorage.setItem('mt_admin_pass', v); alert('Admin password updated');
+      });
+
+      document.getElementById('clear-orders').addEventListener('click', ()=>{
+        if(confirm('Clear all orders?')){ localStorage.removeItem('mt_orders'); alert('Orders cleared'); renderOrders(); updateKpis(); }
+      });
+      document.getElementById('clear-users').addEventListener('click', ()=>{
+        if(confirm('Clear all users?')){ localStorage.removeItem('mt_users'); alert('Users cleared'); renderUsers(); updateKpis(); }
+      });
+      document.getElementById('reindex-stats').addEventListener('click', ()=>{ updateKpis(); alert('Recalculated'); });
+
+      // Export helpers
+      function downloadCSV(filename, csv){ const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
+      document.getElementById('export-users').addEventListener('click', ()=>{
+        const users = JSON.parse(localStorage.getItem('mt_users')||'{}');
+        const rows = [['email','name']];
+        for(const e in users) rows.push([e, users[e].name||'']);
+        downloadCSV('users.csv', rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n'));
+      });
+      document.getElementById('export-orders').addEventListener('click', ()=>{
+        const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+        const rows=[['id','email','items','status']];
+        orders.forEach(o=>rows.push([o.id||'', o.email||'', JSON.stringify(o.items||[]).replace(/"/g,'""'), o.status||'']));
+        downloadCSV('orders.csv', rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n'));
+      });
+
+      // Render functions
+      function updateKpis(){
+        const users = JSON.parse(localStorage.getItem('mt_users')||'{}');
+        const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+        const carts = JSON.parse(localStorage.getItem('mt_cart')||'[]');
+        document.getElementById('kpi-users').textContent = Object.keys(users).length;
+        document.getElementById('kpi-orders').textContent = orders.length;
+        document.getElementById('kpi-cart-items').textContent = carts.reduce((s,i)=>s+(i.qty||0),0);
+      }
+
+      function renderUsers(filter){
+        const users = JSON.parse(localStorage.getItem('mt_users')||'{}');
+        const tbody = document.querySelector('#users-table tbody'); tbody.innerHTML='';
+        Object.keys(users).sort().forEach(email=>{
+          const name = users[email].name||'';
+          if(filter && !(email.includes(filter) || name.includes(filter))) return;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${email}</td><td>${name}</td><td><button data-email="${email}" class="btn-ghost delete-user">Delete</button></td>`;
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('.delete-user').forEach(b=> b.addEventListener('click', ()=>{
+          const e = b.getAttribute('data-email'); if(confirm('Delete user '+e+'?')){ const u = JSON.parse(localStorage.getItem('mt_users')||'{}'); delete u[e]; localStorage.setItem('mt_users', JSON.stringify(u)); renderUsers(); updateKpis(); }
+        }));
+      }
+
+      function renderOrders(filter){
+        const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+        const tbody = document.querySelector('#orders-table tbody'); tbody.innerHTML='';
+        orders.slice().reverse().forEach(o=>{
+          if(filter && !((o.id||'').includes(filter) || (o.email||'').includes(filter) || (o.status||'').includes(filter))) return;
+          const items = (o.items||[]).map(it=>`${it.title} x${it.qty||1}`).join('; ');
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${o.id||''}</td><td>${o.email||''}</td><td>${items}</td><td><select data-id="${o.id}" class="order-status"><option>paid</option><option>processing</option><option>shipped</option><option>delivered</option><option>cancelled</option></select></td><td><button data-id="${o.id}" class="btn-ghost delete-order">Delete</button></td>`;
+          tbody.appendChild(tr);
+          const sel = tr.querySelector('.order-status'); if(sel){ sel.value = o.status || 'paid'; sel.addEventListener('change', ()=>{
+            const id = sel.getAttribute('data-id'); const arr = JSON.parse(localStorage.getItem('mt_orders')||'[]'); const idx = arr.findIndex(x=>x.id===id); if(idx>-1){ arr[idx].status = sel.value; localStorage.setItem('mt_orders', JSON.stringify(arr)); alert('Order updated'); renderOrders(); updateKpis(); }
+          }); }
+          tr.querySelector('.delete-order').addEventListener('click', ()=>{
+            const id = tr.querySelector('.delete-order').getAttribute('data-id'); if(confirm('Delete order '+id+'?')){ let arr = JSON.parse(localStorage.getItem('mt_orders')||'[]'); arr = arr.filter(x=>x.id!==id); localStorage.setItem('mt_orders', JSON.stringify(arr)); renderOrders(); updateKpis(); }
+          });
+        });
+      }
+
+      // Reports: aggregate sales and inventory
+      function renderReports(){
+        const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+        const summary = { totalSales:0, totalOrders: orders.length };
+        const prodMap = {}; // title -> { qty, revenue }
+        orders.forEach(o=>{
+          summary.totalSales += Number(o.total||0);
+          (o.items||[]).forEach(it=>{
+            const key = it.title || 'Unknown Product';
+            prodMap[key] = prodMap[key] || { title:key, qty:0, revenue:0 };
+            prodMap[key].qty += Number(it.qty||1);
+            prodMap[key].revenue += Number((it.price||0) * (it.qty||1));
+          });
+        });
+        // render summary
+        const reportSummary = document.getElementById('report-summary');
+        if(reportSummary){
+          reportSummary.innerHTML = `<div style="display:flex;gap:1rem;flex-wrap:wrap"><div class="kpi"><div class="value">${summary.totalOrders}</div><div class="small">Orders</div></div><div class="kpi"><div class="value">$${summary.totalSales.toFixed(2)}</div><div class="small">Total Sales</div></div></div>`;
+        }
+        // top products
+        const top = Object.values(prodMap).sort((a,b)=>b.qty - a.qty).slice(0,10);
+        const tp = document.getElementById('top-products');
+        if(tp){
+          if(top.length===0) tp.innerHTML = '<div class="muted">No product sales yet.</div>';
+          else tp.innerHTML = top.map(p=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f1f1"><div>${p.title}</div><div>${p.qty} sold — $${p.revenue.toFixed(2)}</div></div>`).join('');
+        }
+        // recent orders
+        const recent = document.getElementById('recent-orders');
+        if(recent){
+          const last = orders.slice().reverse().slice(0,12);
+          if(last.length===0) recent.innerHTML = '<div class="muted">No orders</div>';
+          else recent.innerHTML = last.map(o=>`<div style="padding:6px 0;border-bottom:1px solid #f7f7f7"><div class="small"><strong>${o.id}</strong> — ${o.email||''}</div><div class="muted">Total: $${Number(o.total||0).toFixed(2)} • ${new Date(o.date||0).toLocaleString()}</div></div>`).join('');
+        }
+        // inventory
+        const invArea = document.getElementById('inventory-area');
+        const invRaw = JSON.parse(localStorage.getItem('mt_inventory')||'null');
+        if(!invArea) return;
+        if(!invRaw){
+          invArea.innerHTML = '<div class="muted">No inventory data found. You can initialize inventory from sold products.</div>';
+        } else {
+          // invRaw is expected as { sku: { title, stock } }
+          const rows = [];
+          for(const k in invRaw){
+            const it = invRaw[k];
+            const sold = prodMap[it.title] ? prodMap[it.title].qty : 0;
+            rows.push(`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f7f7f7"><div>${it.title}</div><div>${it.stock} in stock • ${sold} sold</div></div>`);
+          }
+          invArea.innerHTML = rows.join('');
+        }
+      }
+
+      document.getElementById('open-reports').addEventListener('click', ()=>{
+        const card = document.getElementById('reports-card');
+        if(card.style.display === 'none' || !card.style.display){ card.style.display = 'block'; renderReports(); card.scrollIntoView({behavior:'smooth'}); }
+        else { card.style.display = 'none'; }
+      });
+
+      // initialize inventory from sold products
+      document.getElementById('init-inventory').addEventListener('click', ()=>{
+        if(!confirm('Create inventory entries (stock = 0) for each sold product?')) return;
+        const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+        const map = {};
+        orders.forEach(o=> (o.items||[]).forEach(it=> { const k = (it.title||'').replace(/\s+/g,'_'); map[k] = map[k] || { title: it.title, stock: 0 }; }));
+        localStorage.setItem('mt_inventory', JSON.stringify(map));
+        alert('Inventory initialized with ' + Object.keys(map).length + ' items (stock=0).');
+        renderReports();
+      });
+
+      document.getElementById('export-inventory').addEventListener('click', ()=>{
+        const inv = JSON.parse(localStorage.getItem('mt_inventory')||'null');
+        if(!inv){ alert('No inventory available to export'); return; }
+        const rows = [['sku','title','stock']];
+        for(const k in inv) rows.push([k, inv[k].title || '', String(inv[k].stock||0)]);
+        const csv = rows.map(r=> r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+        downloadCSV('inventory.csv', csv);
+      });
+
+      document.getElementById('user-search').addEventListener('input',(e)=>{ renderUsers(e.target.value.trim()); });
+      document.getElementById('order-search').addEventListener('input',(e)=>{ renderOrders(e.target.value.trim()); });
+
+      // Initialize dashboard
+      function initDashboard(){
+        updateKpis(); renderUsers(); renderOrders();
+      }
+
+      // Start: show modal if not authenticated
+      if(!isAuthenticated()){
+        showModal();
+      } else {
+        hideModal(); initDashboard();
+      }
+
+    })();
+  </script>
+</body>
+</html>

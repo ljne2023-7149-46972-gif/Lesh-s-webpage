@@ -1,0 +1,16 @@
+/* Admin dashboard minimal styles */
+:root{--accent:#ec4899;--muted:#6b7280}
+.admin-wrap{max-width:1100px;margin:0 auto;padding:2rem}
+.admin-grid{display:grid;grid-template-columns:1fr 320px;gap:1.25rem}
+.card{background:#fff;border:1px solid #e6e8eb;padding:1rem;border-radius:8px}
+.kpi{display:flex;gap:1rem;align-items:center}
+.kpi .value{font-size:1.5rem;font-weight:700}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:.5rem .6rem;border-bottom:1px solid #f1f5f9;text-align:left;font-size:.95rem}
+.btn{display:inline-block;padding:.45rem .8rem;border-radius:.45rem;background:var(--accent);color:#fff;text-decoration:none}
+.btn-ghost{background:#f3f4f6;color:#111}
+.section-title{font-weight:700;margin-bottom:.6rem}
+.small{font-size:.9rem;color:var(--muted)}
+.controls{display:flex;gap:.5rem;flex-wrap:wrap}
+.search-input{padding:.45rem .6rem;border:1px solid #e6e8eb;border-radius:6px}
+@media(max-width:900px){.admin-grid{grid-template-columns:1fr;}}

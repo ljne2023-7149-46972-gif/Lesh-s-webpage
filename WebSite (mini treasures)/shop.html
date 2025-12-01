@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Mini Treasures</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="cdn/tailwind.js"></script>
+    <script src="cdn/feather-unpkg.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img class="h-12 w-auto" src="pictures/mtlogo.png" alt="Mini Treasures Logo">
+                        <span class="ml-2 text-xl font-bold text-pink-500">Mini Treasures</span>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="index.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
+                        <a href="shop.html" class="border-pink-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Shop</a>
+                        <a href="collections.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Collections</a>
+                        <a href="about.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">About</a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="search.html" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                        <i data-feather="search"></i>
+                    </a>
+                    <a href="account.html" class="ml-3 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                        <i data-feather="user"></i>
+                    </a>
+                    <a href="cart.html" class="ml-3 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none relative">
+                        <i data-feather="shopping-cart"></i>
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-pink-500 rounded-full"><span id="cart-count">0</span></span>
+                    </a>
+                    <span id="user-welcome" class="ml-4 text-sm text-gray-700 hidden"></span>
+                    <button id="logout-btn" class="ml-3 px-3 py-1 text-sm bg-gray-100 rounded hidden">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 mb-2">Shop All Products</h1>
+        <div id="search-results-info" class="text-sm text-gray-600 mb-6"></div>
+        
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Featured Series</h2>
+                <a href="collections.html" class="text-pink-600 hover:text-pink-500">View All →</a>
+            </div>
+            <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div class="group relative">
+                    <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                        <img src="http://static.photos/toys/640x360/11" alt="Hirono Series" class="w-full h-full object-center object-cover">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="product.html">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Hirono Series 4
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Complete set of 12</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$89.99</p>
+                    </div>
+                </div>
+                <div class="group relative">
+                    <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                        <img src="http://static.photos/toys/640x360/12" alt="Skull Panda" class="w-full h-full object-center object-cover">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="product.html">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Skull Panda Nightmare
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Limited edition</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$59.99</p>
+                    </div>
+                </div>
+                <div class="group relative">
+                    <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                        <img src="http://static.photos/toys/640x360/13" alt="PopMart Zodiac" class="w-full h-full object-center object-cover">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="product.html">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    PopMart Zodiac Series
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">12 unique designs</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$79.99</p>
+                    </div>
+                </div>
+                <div class="group relative">
+                    <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                        <img src="http://static.photos/toys/640x360/14" alt="Molly Garden" class="w-full h-full object-center object-cover">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="product.html">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Molly Garden Secrets
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Chase variant included</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$109.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        feather.replace();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('page-transition');
+            feather.replace();
+        });
+    </script>
+        <script src="cdn/cart.js"></script>
+        <script>
+            (function(){
+                function getQuery(){
+                    const params = new URLSearchParams(window.location.search);
+                    return params.get('q') || '';
+                }
+                function applyFilter(q){
+                    const info = document.getElementById('search-results-info');
+                    const cards = Array.from(document.querySelectorAll('.product-card, .group.relative'));
+                    if(!q){
+                        info.textContent = '';
+                        cards.forEach(c=> c.style.display = '');
+                        return;
+                    }
+                    const qq = q.toLowerCase();
+                    let matchCount = 0;
+                    cards.forEach(c=>{
+                        const text = (c.innerText || '').toLowerCase();
+                        if(text.includes(qq)){
+                            c.style.display = '';
+                            matchCount++;
+                        } else {
+                            c.style.display = 'none';
+                        }
+                    });
+                    info.textContent = `Showing ${matchCount} result${matchCount===1?'':'s'} for "${q}"`;
+                    if(matchCount===0) info.textContent = `No results for "${q}"`;
+                }
+                document.addEventListener('DOMContentLoaded', ()=>{
+                    const q = getQuery();
+                    if(q) applyFilter(q);
+                });
+            })();
+        </script>
+  </body>
+</html>

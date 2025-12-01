@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Invoice — Mini Treasures</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f7fafc;color:#111827;margin:0;padding:24px}
+    .container{max-width:900px;margin:0 auto}
+    .card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    .grid{display:flex;gap:20px}
+    .col{flex:1}
+    .muted{color:#6b7280}
+    .items div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee}
+    .actions{margin-top:16px;display:flex;gap:8px}
+    .btn{padding:10px 14px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
+    .btn-primary{background:#ec4899;color:#fff;border:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 id="title">Invoice</h1>
+      <div id="subtitle" class="muted">Order details and receipt</div>
+      <div id="content" style="margin-top:18px"></div>
+    </div>
+  </div>
+
+  <script>
+    function qs(name){
+      const u = new URL(location.href);
+      return u.searchParams.get(name);
+    }
+    function fmtMoney(n){return '$' + Number(n||0).toFixed(2)}
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const id = qs('id') || qs('order');
+      const content = document.getElementById('content');
+      if(!id){ content.innerHTML = '<p class="muted">No order id specified. Open this page from your order confirmation link.</p>'; return; }
+      const orders = JSON.parse(localStorage.getItem('mt_orders')||'[]');
+      const o = orders.find(x=>x.id === id);
+      if(!o){ content.innerHTML = '<p class="muted">Order not found. Make sure you used the correct link.</p>'; return; }
+      // render invoice
+      const placed = new Date(o.date).toLocaleString();
+      const eta = o.deliveryDate ? new Date(o.deliveryDate).toLocaleString() : 'TBD';
+      const itemsHtml = (o.items||[]).map(it=>`<div><div>${it.title} x${it.qty}</div><div>${fmtMoney(it.price*it.qty)}</div></div>`).join('');
+      content.innerHTML = `
+        <div class="grid">
+          <div class="col">
+            <div><strong>Order ID:</strong> ${o.id}</div>
+            <div class="muted">Placed: ${placed}</div>
+            <div class="muted">Buyer: ${o.name} — ${o.email}</div>
+            <div style="margin-top:12px"><strong>Seller:</strong> ${o.seller || 'MiniTreasures@websystem.com'}</div>
+            <div class="muted">Delivery ETA: ${eta}</div>
+            <div style="margin-top:12px"><h3>Items</h3><div class="items">${itemsHtml}</div></div>
+          </div>
+          <div class="col" style="max-width:260px">
+            <div style="background:#f3f4f6;padding:12px;border-radius:6px">
+              <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>${fmtMoney(o.subtotal)}</div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px"><div>Shipping</div><div>${fmtMoney(o.fee)}</div></div>
+              <div style="border-top:1px solid #e5e7eb;margin-top:12px;padding-top:12px;display:flex;justify-content:space-between"><div><strong>Total</strong></div><div><strong>${fmtMoney(o.total)}</strong></div></div>
+            </div>
+            <div class="actions">
+              <button id="print" class="btn btn-primary">Print / Save</button>
+              <button id="download" class="btn">Download</button>
+              <a class="btn" href="account.html?tab=purchases&order=${o.id}">View in Account</a>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('print').addEventListener('click', ()=>window.print());
+      document.getElementById('download').addEventListener('click', ()=>{
+        const lines = [];
+        lines.push(`Order ID: ${o.id}`);
+        lines.push(`Placed: ${placed}`);
+        lines.push(`Buyer: ${o.name} — ${o.email}`);
+        lines.push(`Seller: ${o.seller || 'MiniTreasures@websystem.com'}`);
+        lines.push('');
+        lines.push('Items:');
+        (o.items||[]).forEach(it=>lines.push(`${it.title} x${it.qty} — ${fmtMoney(it.price*it.qty)}`));
+        lines.push('');
+        lines.push(`Subtotal: ${fmtMoney(o.subtotal)}`);
+        lines.push(`Shipping: ${fmtMoney(o.fee)}`);
+        lines.push(`Total: ${fmtMoney(o.total)}`);
+        const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${o.id}_invoice.txt`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      });
+    });
+  </script>
+</body>
+</html>
